@@ -1,0 +1,11 @@
+/* sai que é sua, Tafarel
+
+*/
+.tabelinha{
+    border: 1px solid blue;
+}
+.tabelinha td{
+    border: 1px solid red;
+    margin: 0;
+    
+}

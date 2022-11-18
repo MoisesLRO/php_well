@@ -37,6 +37,48 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funcionario</title>
+    <style>
+        td{
+            border-bottom: 1px darkmagenta;
+        }
+    </style>
+    <body>
+    <table>
+        <thead>
+            <th>Cod</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Cargo</th>
+            <th>Escala</th>
+            <th>Turno</th>
+            <th>Admissao</th>
+            <th>Demissao</th>
+            <th>Salario</th>
+            <th>VT</th>
+            <th>VR</th>
+            <th>VA</th>
+        </thead>
+        <tbody>
+            <?php do {?>
+                <tr>
+                    <td><?php echo $row['cod_cliente'];?></td>
+                    <td><?php echo $row['nome'];?></td>
+                    <td><?php echo $row['cpf'];?></td>
+                    <td><?php echo $row['cargo'];?></td>
+                    <td><?php echo $row['escala'];?></td>
+                    <td><?php echo $row['turno'];?></td>
+                    <td><?php echo $row['admissao'];?></td>
+                    <td><?php echo $row['demissao'];?></td>
+                    <td><?php echo $row['salario'];?></td>
+                    <td><?php echo $row['vt'];?></td>
+                    <td><?php echo $row['vr'];?></td>
+                    <td><?php echo $row['va'];?></td>
+
+                </tr>
+            <?php } while ($row = $lista->fetch())?>
+        </tbody>
+    </table> 
+    </body>
 </head>
 <body>
     

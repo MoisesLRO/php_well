@@ -56,12 +56,21 @@ if(isset($_GET['coddel']))
 }
 
 // atualiza o registro de cliente
-if(isset($_GET['alterar']))
+if(isset($_POST['alterar']))
 {
     $cod = $_POST['cod'];
     $nome = $_POST['nome'];
     $cpf = $_POST['cpf'];
     $resultado = $conn->query("UPDATE cliente SET nome = '$nome', cpf = '$cpf' WHERE cod_cliente = $cod");
+    header('location: cliente.php');
+
+// insere cliente na tabela
+if(isset($_POST['inserir']))
+{
+    $nome - $_POST['nome'];
+    $cpf  =$_POST['cpf'];
+    $insertSql = "insert cliente (nome,cpf) values('$nome','$cpf');";
+    $resultado = $conn->query($insertSql);
     header('location: cliente.php');
 } 
 
@@ -81,6 +90,8 @@ if(isset($_GET['alterar']))
     </style>
 </head>
 <body>
+    <div hidden>
+        <label
     <table>
         <thead>
             <th>Cod</th>

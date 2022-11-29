@@ -49,6 +49,7 @@ if(isset($_GET['enviar'])){
     <meta charset="UTF-8">
     <!-- <meta http-equiv="refresh" content="1"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style></style>
     <title>Meu PHP</title>
 </head>
 <body>

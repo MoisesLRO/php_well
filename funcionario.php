@@ -1,33 +1,102 @@
 <?php 
     include 'conecta.php';
     // criando consulta SQL
-    $filtroSql = "SELECT * FROM funcionario WHERE demissao is NULL";
-
+    $consultaSql = "SELECT * FROM funcionario WHERE demissao is NULL";
+    $consultaSqlArq = "SELECT * FROM funcionario WHERE DELETED is NOT NULL ORDER BY nome ASC, cod_func asc"; 
     // buscando e listando os dados da tabela (completa)
     $lista = $conn->query($consultaSql);
-
+    $listaArq = $conn->query($consultaSqlArq);
     // separar em linhas
     $row = $lista->fetch();
-
+    $rowArq = $listaArq->fetch();
     // retornando o número de linhas
-    $num_tows = $lista->rowCount();
+    $num_rows = $lista->rowCount();
+    $num_rows_arq = $listaArq->rowCount();
+    if(isset($_POST['bt-enviar']));
+    
+    // buscar funcionario por ID
+    $cod_func = 0;
+    $nome = "";
+    $cpf = "";
+    $escala = "";
+    $turno = "";
+    $admissao = "";
+    $demissao = "";
+    $salario = "";
+    $vt = "";
+    $vr = "";
+    $va = "";
+    if(isset($_GET['codedit']))
+    {
+        $funcionario = $conn->query(
+            "SELECT * FROM funcionario where cod_func = ".$_GET['codedit'])->fetch();
+        $nome = $funcionario['nome']
+        $cpf = $funcionario['cpf'];
+        $escala = $funcionario['escala'];
+        $turno = $funcionario['turno'];
+        $admissao = $funcionario['admissao'];
+        $demissao = $funcionario['demissao'];
+        $salario = $funcionario['salario'];
+        $vt = $funcionario['vt'];
+        $vr = $funcionario['vr'];
+        $va = $funcionario['va'];
+        $cod_func = $_GET['codedit']
+    }
+    // arquivando registro de funcionarios
+    if(isset($_GET['codarq']))
+    {
+        $funcionario = $conn->query(
+            'UPDATE funcionario SET DELETED = NOW() WHERE cod_func'.$_GET['codarq'])->fetch();
+            header('location: funcionario.php');   
+    }
+    // excluindo definitivamente registro de funcionarios
+    if(isset($_GET['codedel']))
+    {
+        $funcionario = $conn->query
+            'DELETE FROM funcionario where cod_func = '.$_GET['coddel']->fetch();
+            header('location: funcionario.php');
+    }
+    // atualiza o registro do funcionario
+    if(isset($_POST['alterar']))
+    {
+        $cod_func = $_POST['cod_func'];
+        $nome = $_POST['nome'];
+        $cpf = $_POST['cpf'];
+        $cargo = $_POST['cargo'];
+        $escala = $_POST['escala']; 
+        $turno = $_POST['turno'];
+        $admissao = $_POST['admissao'];
+        $demissao = $_POST['demissao'];
+        $salario = $_POST['salario'];
+        $vt = $_POST['vt'];
+        $vr = $_POST['vr'];
+        $va = $_POST['va'];
+        $resultado = $conn->query("UPDATE cliente SET 
+        nome = '$nome', cpf = '$cpf', cargo = '$cargo', escala = '$escala',
+        turno = '$turno', admissao = '$admissao',
+        demissao = '$demissao', vt = '$vt', vr = '$vr', va = '$va'
+        WHERE cod_func = $cod_func");
+        header('location: funcionario.php');
+    }
+    // insere funcionario na tabela
+    if(isset($_POST['inserir']))
+    {
+        $nome = $_POST['nome'];
+        $cpf = $_POST['cpf'];
+        $cargo = $_POST['cargo'];
+        $escala = $_POST['escala'];
+        $turno = $POST['turno'];
+        $admissao = $_POST['admissao'];
+        $demissao = $_POST['demissao'];
+        $salario = $_POST['salario'];
+        $vt = $_POST['vt'];
+        $vr = $_POST['vr'];
+        $va = $_POST['va'];
+        $insertSql = "INSERT funcionario (nome, cpf, cargo, escala, turno, admissao, demissao, salario, vt, vr, va ) VALUES('$nome','$cpf','$cargo','$escala','$turno','$admissao','$demissao','$salario','$vt','$vr','$va');";
+        $resultado = $conn->query($insertSql);
+        header('location: funcionario.php');
+    }
 
-    if(isset($_POST['bt-enviar']))
-{
-    $nome = $_POST['nome'];
-    $cpf = $_POST['cpf'];
-    $cargo = $_POST['cargo'];
-    $escala = $_POST['escala'];
-    $turno = $POST['turno'];
-    $admissao = $_POST['admissao'];
-    $demissao = $_POST['demissao'];
-    $salario = $_POST['salario'];
-    $vt = $_POST['vt'];
-    $vr = $_POST['vr'];
-    $va = $_POST['va'];
-    $InsertSql = "insert funcionario (nome, cpf, cargo, escala, turno, admissao, demissao, salario, vt, vr, va ) values('$nome','$cpf','$cargo','$escala','$turno','$admissao','$demissao','$salario','$vt','$vr','$va')";
-    $resultado = ('location: funcionario;php')
-}
 ?>
 
 <!DOCTYPE html>
@@ -61,7 +130,7 @@
         <tbody>
             <?php do {?>
                 <tr>
-                    <td><?php echo $row['cod_cliente'];?></td>
+                    <td><?php echo $row['cod_func'];?></td>
                     <td><?php echo $row['nome'];?></td>
                     <td><?php echo $row['cpf'];?></td>
                     <td><?php echo $row['cargo'];?></td>
